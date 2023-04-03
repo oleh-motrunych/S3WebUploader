@@ -3,6 +3,7 @@ import { animate, keyframes, query, stagger, style, transition, trigger } from '
 import { SubscriptionComponent } from 'src/app/infrastructure/subscription-component'
 import { AccountsService } from 'src/app/aws-accounts/services/accounts.service'
 import { IAccount } from 'src/app/services/model'
+import { DataService } from 'src/app/services/shared-data.service';
 
 @Component({
   selector: 'app-add-account',
@@ -25,6 +26,7 @@ export class AddAccountComponent extends SubscriptionComponent implements OnInit
   loading = false
   key = ''
   secret = ''
+  sessionToken = ''
   url = ''
   valid = false
   tested = false
@@ -32,14 +34,14 @@ export class AddAccountComponent extends SubscriptionComponent implements OnInit
   masterPassword = ''
   addAccountErrMsg: string
 
-  constructor(private accounts: AccountsService) {
+  constructor(private accounts: AccountsService, private sharedDataService: DataService) {
     super()
   }
 
   ngOnInit() {
     this.recordSubscription(
       this.accounts.AccountTestResult.subscribe(_ => {
-        if (_.account.id === this.key && _.account.secret === this.secret) {
+        if (_.account.id === this.key && _.account.secret === this.secret && _.account.sessionToken === this.sessionToken) {
           if (_.success) {
             this.addAccount(_.account)
           } else {
@@ -80,6 +82,7 @@ export class AddAccountComponent extends SubscriptionComponent implements OnInit
       id: this.key,
       secret: this.secret,
       url: this.url,
+      sessionToken: this.sessionToken,
       initialBucket: initialBucket,
       pathStyle,
     })
@@ -107,8 +110,9 @@ export class AddAccountComponent extends SubscriptionComponent implements OnInit
   }
 
   fillInMinIODemo() {
-    this.key = 'Q3AM3UQ867SPQQA43P2F'
-    this.secret = 'zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG'
-    this.url = 'https://play.minio.io/'
+    this.key = this.sharedDataService.sharedData["test_var"]
+    this.secret = this.sharedDataService.sharedData["test_var1"]
+    this.url = this.sharedDataService.sharedData["test_var2"]
+    this.sessionToken = this.sharedDataService.sharedData["test_var3"]
   }
 }

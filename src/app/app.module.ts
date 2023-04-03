@@ -18,9 +18,10 @@ import { FolderBrowserModule } from 'src/app/folder-browser/folder-browser.modul
 import { FolderBrowserComponent } from 'src/app/folder-browser/folder-browser/folder-browser.component'
 import { HistoriesModule } from 'src/app/histories/histories.module'
 import { AwsS3Module } from 'src/app/aws-s3/aws-s3.module'
+import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
 
 const routes: Routes = [
-  { path: 'home', component: WelcomePageComponent },
+  { path: 'home', component: WelcomePageComponent},
   {
     path: 'browse',
     children: [
@@ -36,6 +37,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [AppComponent, SideNavComponent, SideHeaderComponent, WelcomePageComponent],
   imports: [
+    AmplifyAngularModule,
     CommonModule,
     BrowserModule,
     RouterModule.forRoot(routes, { enableTracing: true, useHash: true }),
@@ -75,7 +77,7 @@ const routes: Routes = [
     FolderBrowserModule,
     HistoriesModule,
   ],
-  providers: [],
+  providers: [AmplifyService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

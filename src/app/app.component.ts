@@ -43,7 +43,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.electron.send('Application-Initialize', {})
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   ngAfterViewInit(): void {
     // wait for completely rendered

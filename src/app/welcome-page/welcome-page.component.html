@@ -1,26 +1,34 @@
 <div class="page-container">
   <div class="page-header-overlay bg-gradient-primary"></div>
   <div class="side-header-container">
-    <!--<div class="settings-icon" id="settings-btn" (click)="goToSettings()">-->
-    <!--  <i class="ion-ios-settings"></i>-->
-    <!--  <div class="badge bg-info" *ngIf="updateAvailable">-->
-    <!--    <i class="ion-ios-information"></i>-->
-    <!--  </div>-->
-    <!--</div>-->
+<!--    <div class="settings-icon" id="settings-btn" (click)="goToSettings()">-->
+<!--      <i class="ion-ios-settings"></i>-->
+<!--      <div class="badge bg-info" *ngIf="updateAvailable">-->
+<!--        <i class="ion-ios-information"></i>-->
+<!--      </div>-->
+<!--    </div>-->
   </div>
   <div class="page-contents container-fluid pt-5">
     <div class="row">
       <div class="col">
         <div class="card card-stats mb-4 mb-xl-0">
           <div class="card-body text-left">
-            <h1>S3 Web Uploader</h1>
-            <h2>Getting Start</h2>
+            <h1>S3 Uploader</h1>
+            <div class="user-info-container">
+              <div class="user-info" [ngClass]="{'logged-in': jwtToken}">
+                <span *ngIf="jwtToken">Welcome, {{ sharedDataService.sharedData.email }}</span>
+                <span *ngIf="!jwtToken" class="grayed-out-text">Not logged in 😔</span>
+              </div>
+              <button type="button" id="sendlogin" class="btn btn-warning" (click)="onLoginClickOkta()">
+                Login with Okta
+              </button>
+            </div>
             <ul>
               <li>
                 <p>
                   Click
                   <i class="ion-ios-add" style="font-size: 1.5em; line-height: 1.5em"></i>
-                  to add S3-compatible service.
+                  to add your team home folder located on S3.
                 </p>
               </li>
               <li><p>Drag a file/folder into the tree/browser to upload.</p></li>

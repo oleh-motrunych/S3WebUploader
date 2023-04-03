@@ -28,6 +28,16 @@
                 />
                 <input
                   type="password"
+                  name="sessionToken"
+                  class="form-control form-control-alternative"
+                  [class.is-valid]="!loading && tested && valid"
+                  [class.is-invalid]="!loading && tested && !valid"
+                  placeholder="sessionToken"
+                  [(ngModel)]="sessionToken"
+                  (input)="onTextChange()"
+                />
+                <input
+                  type="password"
                   name="account-secret"
                   class="form-control form-control-alternative"
                   [class.is-valid]="!loading && tested && valid"
@@ -68,8 +78,8 @@
                   (input)="onTextChange()"
                 />
                 <small class="form-text text-muted">
-                  Having trouble on getting a running s3 service?
-                  <a (click)="fillInMinIODemo()" href="#">Try a minIO official demo account</a>
+                  Click link below to get your bucket credentials?
+                  <a (click)="fillInMinIODemo()" href="#">your teams bucket is here</a>
                 </small>
                 <div class="valid-feedback">
                   Connection Successful

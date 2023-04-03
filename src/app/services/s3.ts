@@ -15,20 +15,20 @@ export function createS3Instance(acc: IAccount): AWS.S3 {
       endpoint: acc.url,
       s3BucketEndpoint: true,
       s3ForcePathStyle: acc.pathStyle,
-      credentials: new AWS.Credentials(acc.id, acc.secret),
+      credentials: new AWS.Credentials(acc.id, acc.secret, acc.sessionToken),
       signatureVersion: 'v4',
     })
   } else if (acc.url) {
     return new AWS.S3({
       endpoint: acc.url,
       s3ForcePathStyle: acc.pathStyle,
-      credentials: new AWS.Credentials(acc.id, acc.secret),
+      credentials: new AWS.Credentials(acc.id, acc.secret, acc.sessionToken),
       signatureVersion: 'v4',
     })
   } else {
     return new AWS.S3({
       s3ForcePathStyle: acc.pathStyle,
-      credentials: new AWS.Credentials(acc.id, acc.secret),
+      credentials: new AWS.Credentials(acc.id, acc.secret, acc.sessionToken),
       signatureVersion: 'v4',
     })
   }

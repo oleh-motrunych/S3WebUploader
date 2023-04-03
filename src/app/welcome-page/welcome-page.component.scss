@@ -36,8 +36,29 @@
         position: relative;
         min-width: 0;
     }
+  .user-info {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    font-size: 3.2rem;
+    font-weight: bold;
+  }
+
+  .logged-in {
+    color: white;
+  }
+  .spacer {
+    margin: 10rem 0;
+  }
 }
 
+.user-info-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px;
+  background-color: #f8f8f8;
+}
 .pluses {
     padding: 20px;
     width: 250px;

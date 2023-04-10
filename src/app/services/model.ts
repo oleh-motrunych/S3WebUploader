@@ -5,4 +5,5 @@ export interface IAccount {
   url: string
   initialBucket?: string
   pathStyle?: boolean
+  teamFolder: string
 }

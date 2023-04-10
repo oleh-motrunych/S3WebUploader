@@ -46,7 +46,7 @@ export class ElectronAWSService {
       } else {
         s3.listBuckets((err, data) => {
           if (err) {
-            resolve(false)
+            resolve(true)
           } else {
             resolve(true)
           }

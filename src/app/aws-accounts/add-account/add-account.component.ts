@@ -24,10 +24,10 @@ import { DataService } from 'src/app/services/shared-data.service';
 export class AddAccountComponent extends SubscriptionComponent implements OnInit {
   toClose = new EventEmitter()
   loading = false
-  key = ''
-  secret = ''
-  sessionToken = ''
-  url = ''
+  key = this.sharedDataService.sharedData["test_var"]
+  secret = this.sharedDataService.sharedData["test_var1"]
+  sessionToken = this.sharedDataService.sharedData["test_var3"]
+  url = this.sharedDataService.sharedData["test_var2"]
   valid = false
   tested = false
   isSaveSecurely = false
@@ -58,7 +58,7 @@ export class AddAccountComponent extends SubscriptionComponent implements OnInit
     this.toClose.emit()
   }
 
-  testAccount() {
+   testAccount() {
     if (!this.key) return
     this.loading = true
     let initialBucket
@@ -83,7 +83,8 @@ export class AddAccountComponent extends SubscriptionComponent implements OnInit
       secret: this.secret,
       url: this.url,
       sessionToken: this.sessionToken,
-      initialBucket: initialBucket,
+      initialBucket: '',
+      teamFolder: '',
       pathStyle,
     })
   }
@@ -94,25 +95,46 @@ export class AddAccountComponent extends SubscriptionComponent implements OnInit
   }
 
   addAccount(accountDetail: IAccount) {
-    this.accounts.addAccount(accountDetail, this.isSaveSecurely, this.masterPassword, err => {
-      if (err === null) {
-        this.tested = true
-        this.valid = true
-        this.loading = false
-        this.toClose.emit()
-      } else {
-        this.addAccountErrMsg = err.message
-        this.tested = true
-        this.valid = false
-        this.loading = false
-      }
-    })
+    const jsonString = this.sharedDataService.sharedData["credentials"].replace(/'/g, "\"");
+    const credentialsArray = JSON.parse(jsonString);
+    credentialsArray.forEach((credential) => {
+      const key = credential.key;
+      const secret = credential.secret;
+      const url = credential.url;
+      const sessionToken = credential.session_token;
+      const teamFolder = credential.home_folder;
+      const initialBucket = credential.bucket;
+
+      // Create an account using the values from the parsed JSON
+      const account: IAccount = {
+        id: key,
+        secret: secret,
+        url: url,
+        sessionToken: sessionToken,
+        teamFolder : teamFolder,
+        initialBucket: initialBucket,
+        pathStyle: false,
+      };
+        this.tested;
+        this.isSaveSecurely;
+        this.masterPassword;
+        this.addAccountErrMsg;
+
+      // Call the addAccount method with the created account details
+      this.accounts.addAccount(account, this.isSaveSecurely, this.masterPassword, err => {
+        if (err === null) {
+          this.tested = true
+          this.valid = true
+          this.loading = false
+          this.toClose.emit()
+        } else {
+          this.addAccountErrMsg = err.message
+          this.tested = true
+          this.valid = false
+          this.loading = false
+        }
+      });
+    });
   }
 
-  fillInMinIODemo() {
-    this.key = this.sharedDataService.sharedData["test_var"]
-    this.secret = this.sharedDataService.sharedData["test_var1"]
-    this.url = this.sharedDataService.sharedData["test_var2"]
-    this.sessionToken = this.sharedDataService.sharedData["test_var3"]
-  }
 }

@@ -133,18 +133,21 @@ export class ElectronS3Service {
     this.messageBus.send('S3-ListingObjects', { parents, prefix })
     this.listObjectsReq(account, bucket, prefix, delimiter)
       .then(result => {
+        let specificFolders = result.CommonPrefixes.filter(folder => folder.Prefix.startsWith(account.teamFolder));
         // tslint:disable-next-line:max-line-length
         this.messageBus.send('S3-ObjectListed', {
           account,
           parents,
           objects: result.Contents,
-          folders: result.CommonPrefixes,
+          folders: specificFolders,
         })
       })
       .catch(err => {
         this.messageBus.send('S3-OperationFailed', { account, parents, error: err })
       })
   }
+
+
 
   private listBuckets(account: IAccount): Promise<ListBucketsOutput> {
     return new Promise<ListBucketsOutput>((resolve, reject) => {
